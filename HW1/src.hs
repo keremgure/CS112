@@ -62,6 +62,10 @@ letterIndex :: Char -> Int
 letterIndex c = let (y:ys) = ['A'..'Z']
                 in fromJust $elemIndex c (y:ys)
 
+letterIndexv2 :: Char -> [Char] -> Int ->Int
+letterIndexv2 c [] a = -1
+letterIndexv2 c (x:xs) a | x /= c = letterIndexv2 c xs (a+1)
+                         | otherwise = a
 
 convertIndex :: String -> Int
 convertIndex "" = 0
@@ -69,3 +73,10 @@ convertIndex (x:xs) = let size = getLength (x:xs)
                           alphSize = 26
                           elementIndex = letterIndex x
                         in elementIndex + (alphSize * (size -1)) + convertIndex xs
+
+convertIndexv2 :: String -> Int
+convertIndexv2 "" = 0
+convertIndexv2 (x:xs) = let size = getLength (x:xs)
+                            alphSize = 26
+                            elementIndex = letterIndexv2 x ['A'..'Z'] 0
+                        in elementIndex + (alphSize * (size - 1)) + convertIndex xs
